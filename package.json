@@ -1,6 +1,6 @@
 {
   "name": "dom-polyfills",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "DOM polyfills",
   "main": "polyfills.js",
   "scripts": {

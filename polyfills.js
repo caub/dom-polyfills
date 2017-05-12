@@ -79,36 +79,88 @@ if (!window.hasOwnProperty('URLSearchParams')) {
 	});
 }
 
-if (!Element.prototype.classList) {
-	function ClassList(element) {
-		this.element = element;
-		this.remove = function(c) {
-			var cls = this.element.className.split(/ +/);
-			this.element.className = cls.filter(function(x){return x!==c}).join(' ');
-		};
-		this.add = function(c) {
-			this.element.className += ' '+c;
-		};
-		this.contains = function(c) {
-			return this.element.className.split(/ +/).find(function(x){return x==c});
-		};
-		this.toggle = function(c, force) {
-			if (force===undefined) force = !this.contains(c);
-			if (force) {
-				this.add(c);
-			} else {
-				this.remove(c);
-			}
-			return force;
-		};
-	};
+if (!document.body.classList) {
 	Object.defineProperty(Element.prototype, 'classList', {
 		get: function() { 
-			return new ClassList(this);
+			return {
+				remove: function(c) {
+					var cls = this.className.split(/ +/);
+					this.className = cls.filter(function(x){return x!==c}).join(' ');
+				}.bind(this),
+				add: function(c) {
+					this.className += ' '+c;
+				}.bind(this),
+				contains: function(c) {	
+					console.log(this)
+					return this.className.split(/ +/).find(function(x){return x==c});
+				}.bind(this),
+				toggle: function(c, force) {
+					if (force===undefined) force = !this.contains(c);
+					if (force) {
+						this.add(c);
+					} else {
+						this.remove(c);
+					}
+					return force;
+				}.bind(this)
+			};
 		},
 		enumerable: false
 	});
 }
+
+if (!document.body.dataset) {
+	function toUpperCase(s) {
+		return s.charAt(1).toUpperCase();
+	}
+	Object.defineProperty(Element.prototype, 'dataset', {
+		get: function() {
+			var o = {};
+
+			for (i = 0; i < this.attributes.length; i++) {
+				var attr = this.attributes[i];
+				if (attr.name && attr.name.slice(0,5)=='data-') {
+					var name =  attr.name.slice(5).replace(/-./g, toUpperCase);
+					Object.defineProperty(o, name, {
+						get: function(){return attr.value|| ''},
+						set: function(value){
+							return value ? 
+								this.setAttribute(attr.name, value) : 
+								this.removeAttribute(attr.name);
+						}.bind(this)
+					});
+				}
+			}
+
+
+			return {
+				remove: function(c) {
+					var cls = this.className.split(/ +/);
+					this.className = cls.filter(function(x){return x!==c}).join(' ');
+				}.bind(this),
+				add: function(c) {
+					this.className += ' '+c;
+				}.bind(this),
+				contains: function(c) {	
+					console.log(this)
+					return this.className.split(/ +/).find(function(x){return x==c});
+				}.bind(this),
+				toggle: function(c, force) {
+					if (force===undefined) force = !this.contains(c);
+					if (force) {
+						this.add(c);
+					} else {
+						this.remove(c);
+					}
+					return force;
+				}.bind(this)
+			};
+		},
+		enumerable: false
+	});
+}
+
+
 
 if (!Element.prototype.matches) {
 	Element.prototype.matches = 

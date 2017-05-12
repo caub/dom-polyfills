@@ -3,6 +3,7 @@
 - fetch
 - URLSearchParams
 - element#classList
+- element#dataset
 - element#matches
 - element#closest
 
