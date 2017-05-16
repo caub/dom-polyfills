@@ -26,10 +26,15 @@ if (!window.hasOwnProperty('Promise')) {
 
 if (!window.hasOwnProperty('URLSearchParams')) {
 
-	window.URLSearchParams = function(url){
+	window.URLSearchParams = function(arg){
 		var map = new Map(); // could use Object.create(null) but it's added after es6-shims
-		if (url){
-			url.replace(/^\?/,'').split('&').forEach(function(pair){
+		if (Array.isArray(arg)) {
+			for (var i=0; i<arg.length; i++) {
+				this.append(arg[i][0], arg[i][1]);
+			}
+
+		} else if (typeof arg=='string'){
+			arg.replace(/^\?/,'').split('&').forEach(function(pair){
 				var p = pair.split('=');
 				var key = p[0], val = p[1];
 				try { // decode if needed
