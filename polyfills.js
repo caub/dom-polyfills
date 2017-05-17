@@ -165,6 +165,12 @@ if (!document.body.dataset) {
 	});
 }
 
+if (!NodeList.prototype.hasOwnProperty('forEach')) {
+	NodeList.prototype.forEach = function(cb){ for (var i=0;i<this.length;i++) cb(this[i], i, this); }
+}
+if (!HTMLCollection.prototype.hasOwnProperty('forEach')) {
+	HTMLCollection.prototype.forEach = function(cb){ for (var i=0;i<this.length;i++) cb(this[i], i, this); }
+}
 
 
 if (!Element.prototype.matches) {
