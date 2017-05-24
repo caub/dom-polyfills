@@ -1,5 +1,5 @@
 
-if (!window.hasOwnProperty('Promise')) {
+if (!window.hasOwnProperty('fetch')) {
 	window.fetch = function fetch(url, opts) {
 		return new Promise(function(resolve, reject) {
 			var xhr = new XMLHttpRequest();

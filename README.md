@@ -2,14 +2,14 @@
 
 - fetch
 - URLSearchParams
-- element#classList
-- element#dataset
-- element#matches
-- element#closest
+- Element#classList
+- Element#dataset
+- Element#matches
+- Element#closest
 
 Must be included after es6-shim (it uses Promises and Map)
 
-usage:
+### usage:
 
 ```js
 if (!Array.hasOwnProperty('from'))
